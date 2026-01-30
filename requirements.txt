@@ -1,0 +1,5 @@
+# Android Emulator Cleaner - Dependencies
+# Install with: pip install -r requirements.txt
+
+rich>=13.0.0
+questionary>=2.0.0

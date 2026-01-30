@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="androidGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3ddc84;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2ecc71;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00b4d8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0077b6;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="200" fill="url(#bgGradient)" rx="15"/>
+
+  <!-- Decorative circuit lines -->
+  <g stroke="#3ddc84" stroke-width="1" opacity="0.2">
+    <line x1="50" y1="30" x2="150" y2="30"/>
+    <line x1="150" y1="30" x2="150" y2="60"/>
+    <circle cx="150" cy="60" r="3" fill="#3ddc84"/>
+
+    <line x1="650" y1="170" x2="750" y2="170"/>
+    <line x1="650" y1="170" x2="650" y2="140"/>
+    <circle cx="650" cy="140" r="3" fill="#3ddc84"/>
+
+    <line x1="700" y1="40" x2="750" y2="40"/>
+    <line x1="700" y1="40" x2="700" y2="70"/>
+    <circle cx="700" cy="70" r="3" fill="#3ddc84"/>
+  </g>
+
+  <!-- Android Robot Icon -->
+  <g transform="translate(80, 60)">
+    <!-- Body -->
+    <rect x="15" y="45" width="50" height="55" rx="8" fill="url(#androidGreen)"/>
+    <!-- Head -->
+    <rect x="15" y="10" width="50" height="30" rx="15" fill="url(#androidGreen)"/>
+    <!-- Eyes -->
+    <circle cx="30" cy="22" r="4" fill="#1a1a2e"/>
+    <circle cx="50" cy="22" r="4" fill="#1a1a2e"/>
+    <!-- Antennas -->
+    <line x1="28" y1="10" x2="22" y2="-2" stroke="url(#androidGreen)" stroke-width="4" stroke-linecap="round"/>
+    <line x1="52" y1="10" x2="58" y2="-2" stroke="url(#androidGreen)" stroke-width="4" stroke-linecap="round"/>
+    <!-- Arms -->
+    <rect x="0" y="50" width="12" height="40" rx="6" fill="url(#androidGreen)"/>
+    <rect x="68" y="50" width="12" height="40" rx="6" fill="url(#androidGreen)"/>
+    <!-- Legs -->
+    <rect x="23" y="100" width="12" height="25" rx="6" fill="url(#androidGreen)"/>
+    <rect x="45" y="100" width="12" height="25" rx="6" fill="url(#androidGreen)"/>
+
+    <!-- Cleaning sparkle -->
+    <g transform="translate(70, -5)" filter="url(#glow)">
+      <polygon points="10,0 12,8 20,10 12,12 10,20 8,12 0,10 8,8" fill="#ffd700"/>
+    </g>
+  </g>
+
+  <!-- Title Text -->
+  <text x="200" y="85" font-family="'Segoe UI', Arial, sans-serif" font-size="42" font-weight="bold" fill="#ffffff">
+    Android Emulator
+  </text>
+  <text x="200" y="130" font-family="'Segoe UI', Arial, sans-serif" font-size="42" font-weight="bold" fill="url(#androidGreen)">
+    Cleaner
+  </text>
+
+  <!-- Subtitle -->
+  <text x="200" y="165" font-family="'Segoe UI', Arial, sans-serif" font-size="16" fill="#8892b0">
+    Clean up storage without losing your data
+  </text>
+
+  <!-- Feature badges -->
+  <g transform="translate(200, 175)">
+    <rect x="0" y="0" width="70" height="20" rx="10" fill="url(#accentBlue)" opacity="0.8"/>
+    <text x="35" y="14" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle">CLI Tool</text>
+
+    <rect x="80" y="0" width="70" height="20" rx="10" fill="url(#androidGreen)" opacity="0.8"/>
+    <text x="115" y="14" font-family="Arial, sans-serif" font-size="10" fill="#1a1a2e" text-anchor="middle">Python</text>
+
+    <rect x="160" y="0" width="85" height="20" rx="10" fill="#e74c3c" opacity="0.8"/>
+    <text x="202" y="14" font-family="Arial, sans-serif" font-size="10" fill="#ffffff" text-anchor="middle">Open Source</text>
+  </g>
+
+  <!-- Storage icon -->
+  <g transform="translate(680, 70)">
+    <rect x="0" y="0" width="60" height="50" rx="5" fill="none" stroke="#3ddc84" stroke-width="2"/>
+    <rect x="5" y="35" width="50" height="10" rx="2" fill="#3ddc84" opacity="0.3"/>
+    <rect x="5" y="35" width="25" height="10" rx="2" fill="#3ddc84"/>
+    <circle cx="50" cy="15" r="3" fill="#3ddc84"/>
+    <circle cx="50" cy="25" r="3" fill="#3ddc84" opacity="0.5"/>
+    <text x="30" y="68" font-family="Arial, sans-serif" font-size="10" fill="#8892b0" text-anchor="middle">Free Space</text>
+  </g>
+</svg>
