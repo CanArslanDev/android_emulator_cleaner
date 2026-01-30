@@ -79,14 +79,6 @@ clean:
 build: clean
 	$(PYTHON) -m build
 
-## publish-test: Publish to TestPyPI
-publish-test: build
-	$(PYTHON) -m twine upload --repository testpypi dist/*
-
-## publish: Publish to PyPI
-publish: build
-	$(PYTHON) -m twine upload dist/*
-
 ## run: Run the application
 run:
 	$(PYTHON) -m android_emulator_cleaner

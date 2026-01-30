@@ -12,12 +12,7 @@
   <a href="https://github.com/CanArslanDev/android_emulator_cleaner/actions/workflows/ci.yml">
     <img src="https://github.com/CanArslanDev/android_emulator_cleaner/actions/workflows/ci.yml/badge.svg" alt="CI">
   </a>
-  <a href="https://pypi.org/project/android-emulator-cleaner/">
-    <img src="https://img.shields.io/pypi/v/android-emulator-cleaner.svg" alt="PyPI">
-  </a>
-  <a href="https://pypi.org/project/android-emulator-cleaner/">
-    <img src="https://img.shields.io/pypi/pyversions/android-emulator-cleaner.svg" alt="Python Versions">
-  </a>
+  <img src="https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue" alt="Python Versions">
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
   </a>
