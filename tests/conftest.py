@@ -1,6 +1,6 @@
 """Pytest configuration and fixtures."""
 
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -105,3 +105,10 @@ def mock_subprocess_failure():
     mock.stdout = ""
     mock.stderr = "Error: device not found"
     return mock
+
+
+@pytest.fixture(autouse=True)
+def mock_adb_path():
+    """Mock ADB path for all tests so they work without ADB installed."""
+    with patch("shutil.which", return_value="/usr/bin/adb"):
+        yield
