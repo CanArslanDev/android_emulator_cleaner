@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/yourusername/android_emulator_cleaner/actions/workflows/ci.yml">
-    <img src="https://github.com/yourusername/android_emulator_cleaner/actions/workflows/ci.yml/badge.svg" alt="CI">
+  <a href="https://github.com/CanArslanDev/android_emulator_cleaner/actions/workflows/ci.yml">
+    <img src="https://github.com/CanArslanDev/android_emulator_cleaner/actions/workflows/ci.yml/badge.svg" alt="CI">
   </a>
   <a href="https://pypi.org/project/android-emulator-cleaner/">
     <img src="https://img.shields.io/pypi/v/android-emulator-cleaner.svg" alt="PyPI">
@@ -21,8 +21,8 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
   </a>
-  <a href="https://github.com/yourusername/android_emulator_cleaner/stargazers">
-    <img src="https://img.shields.io/github/stars/yourusername/android_emulator_cleaner.svg" alt="Stars">
+  <a href="https://github.com/CanArslanDev/android_emulator_cleaner/stargazers">
+    <img src="https://img.shields.io/github/stars/CanArslanDev/android_emulator_cleaner.svg" alt="Stars">
   </a>
 </p>
 
@@ -86,7 +86,7 @@ pipx install android-emulator-cleaner
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/android_emulator_cleaner.git
+git clone https://github.com/CanArslanDev/android_emulator_cleaner.git
 cd android_emulator_cleaner
 
 # Install in development mode
@@ -235,7 +235,7 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 ```bash
 # Clone and enter directory
-git clone https://github.com/yourusername/android_emulator_cleaner.git
+git clone https://github.com/CanArslanDev/android_emulator_cleaner.git
 cd android_emulator_cleaner
 
 # Create virtual environment
@@ -281,8 +281,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📬 Support
 
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/yourusername/android_emulator_cleaner/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/yourusername/android_emulator_cleaner/discussions)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/CanArslanDev/android_emulator_cleaner/issues)
+- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/CanArslanDev/android_emulator_cleaner/discussions)
 - 📧 **Contact**: Create an issue for any questions
 
 ---

@@ -30,7 +30,7 @@ def create_progress_bar() -> Progress:
         BarColumn(bar_width=40),
         TaskProgressColumn(),
         console=console,
-        transient=False
+        transient=False,
     )
 
 

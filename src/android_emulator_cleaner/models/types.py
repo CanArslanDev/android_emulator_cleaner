@@ -48,21 +48,13 @@ class CleanupOption:
     @property
     def risk_color(self) -> str:
         """Get the display color for this risk level."""
-        colors = {
-            RiskLevel.LOW: "green",
-            RiskLevel.MEDIUM: "yellow",
-            RiskLevel.HIGH: "red"
-        }
+        colors = {RiskLevel.LOW: "green", RiskLevel.MEDIUM: "yellow", RiskLevel.HIGH: "red"}
         return colors.get(self.risk_level, "white")
 
     @property
     def risk_indicator(self) -> str:
         """Get the emoji indicator for this risk level."""
-        indicators = {
-            RiskLevel.LOW: "🟢",
-            RiskLevel.MEDIUM: "🟡",
-            RiskLevel.HIGH: "🔴"
-        }
+        indicators = {RiskLevel.LOW: "🟢", RiskLevel.MEDIUM: "🟡", RiskLevel.HIGH: "🔴"}
         return indicators.get(self.risk_level, "⚪")
 
 
@@ -123,7 +115,7 @@ class StorageInfo:
     @classmethod
     def from_df_output(cls, output: str) -> "StorageInfo":
         """Parse storage info from df command output."""
-        lines = output.strip().split('\n')
+        lines = output.strip().split("\n")
         if len(lines) >= 2:
             parts = lines[-1].split()
             if len(parts) >= 4:
@@ -131,7 +123,7 @@ class StorageInfo:
                     total=parts[1],
                     used=parts[2],
                     available=parts[3],
-                    use_percent=parts[4] if len(parts) > 4 else "N/A"
+                    use_percent=parts[4] if len(parts) > 4 else "N/A",
                 )
         return cls()
 

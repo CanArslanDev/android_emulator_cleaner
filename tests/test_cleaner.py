@@ -57,7 +57,7 @@ class TestDeviceCleaner:
         """Test enabling root on emulator."""
         cleaner = DeviceCleaner(mock_device)
 
-        with patch('subprocess.run', return_value=mock_subprocess_success):
+        with patch("subprocess.run", return_value=mock_subprocess_success):
             result = cleaner.enable_root()
 
         assert result is True
@@ -74,7 +74,7 @@ class TestDeviceCleaner:
         """Test successful cleanup operation."""
         cleaner = DeviceCleaner(mock_device)
 
-        with patch('subprocess.run', return_value=mock_subprocess_success):
+        with patch("subprocess.run", return_value=mock_subprocess_success):
             result = cleaner.run_cleanup(mock_cleanup_option)
 
         assert result.success is True
@@ -84,12 +84,14 @@ class TestDeviceCleaner:
         """Test failed cleanup operation."""
         cleaner = DeviceCleaner(mock_device)
 
-        with patch('subprocess.run', return_value=mock_subprocess_failure):
+        with patch("subprocess.run", return_value=mock_subprocess_failure):
             result = cleaner.run_cleanup(mock_cleanup_option)
 
         assert result.success is False
 
-    def test_run_cleanup_with_progress_callback(self, mock_device, mock_cleanup_option, mock_subprocess_success):
+    def test_run_cleanup_with_progress_callback(
+        self, mock_device, mock_cleanup_option, mock_subprocess_success
+    ):
         """Test cleanup with progress callback."""
         cleaner = DeviceCleaner(mock_device)
         callback_called = []
@@ -97,7 +99,7 @@ class TestDeviceCleaner:
         def progress_callback(msg):
             callback_called.append(msg)
 
-        with patch('subprocess.run', return_value=mock_subprocess_success):
+        with patch("subprocess.run", return_value=mock_subprocess_success):
             cleaner.run_cleanup(mock_cleanup_option, progress_callback=progress_callback)
 
         assert len(callback_called) == 1
@@ -108,7 +110,7 @@ class TestDeviceCleaner:
         cleaner = DeviceCleaner(mock_device)
         options = [mock_cleanup_option, mock_cleanup_option]
 
-        with patch('subprocess.run', return_value=mock_subprocess_success):
+        with patch("subprocess.run", return_value=mock_subprocess_success):
             results = cleaner.run_all_cleanups(options)
 
         assert len(results) == 2
@@ -123,18 +125,18 @@ class TestDeviceCleaner:
         mock_result.stdout = "package:com.example.app1\npackage:com.example.app2\n"
         mock_result.stderr = ""
 
-        with patch('subprocess.run', return_value=mock_result):
+        with patch("subprocess.run", return_value=mock_result):
             apps = cleaner.get_installed_apps()
 
         assert len(apps) == 2
-        assert apps[0]['package'] == "com.example.app1"
-        assert apps[0]['name'] == "app1"
+        assert apps[0]["package"] == "com.example.app1"
+        assert apps[0]["name"] == "app1"
 
     def test_uninstall_app_success(self, mock_device, mock_subprocess_success):
         """Test successful app uninstallation."""
         cleaner = DeviceCleaner(mock_device)
 
-        with patch('subprocess.run', return_value=mock_subprocess_success):
+        with patch("subprocess.run", return_value=mock_subprocess_success):
             result = cleaner.uninstall_app("com.example.app")
 
         assert result.success is True
@@ -145,7 +147,7 @@ class TestDeviceCleaner:
         cleaner = DeviceCleaner(mock_device)
         packages = ["com.example.app1", "com.example.app2"]
 
-        with patch('subprocess.run', return_value=mock_subprocess_success):
+        with patch("subprocess.run", return_value=mock_subprocess_success):
             results = cleaner.uninstall_apps(packages)
 
         assert len(results) == 2

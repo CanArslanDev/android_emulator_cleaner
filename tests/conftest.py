@@ -24,7 +24,7 @@ def mock_device() -> Device:
         device_type=DeviceType.EMULATOR,
         model="sdk_gphone64_arm64",
         android_version="14",
-        sdk_version="34"
+        sdk_version="34",
     )
 
 
@@ -37,7 +37,7 @@ def mock_physical_device() -> Device:
         device_type=DeviceType.PHYSICAL,
         model="Pixel 7",
         android_version="14",
-        sdk_version="34"
+        sdk_version="34",
     )
 
 
@@ -50,7 +50,7 @@ def mock_avd() -> AVD:
         total_size="8.5GB",
         snapshot_size="2.1GB",
         cache_size="512MB",
-        is_running=False
+        is_running=False,
     )
 
 
@@ -63,7 +63,7 @@ def mock_running_avd() -> AVD:
         total_size="10.2GB",
         snapshot_size="3.5GB",
         cache_size="768MB",
-        is_running=True
+        is_running=True,
     )
 
 
@@ -77,19 +77,14 @@ def mock_cleanup_option() -> CleanupOption:
         command="adb shell pm trim-caches 999999999999999",
         path="/data/data/*/cache",
         icon="🗑️",
-        risk_level=RiskLevel.LOW
+        risk_level=RiskLevel.LOW,
     )
 
 
 @pytest.fixture
 def mock_storage_info() -> StorageInfo:
     """Create mock storage info for testing."""
-    return StorageInfo(
-        total="64G",
-        used="32G",
-        available="32G",
-        use_percent="50%"
-    )
+    return StorageInfo(total="64G", used="32G", available="32G", use_percent="50%")
 
 
 @pytest.fixture

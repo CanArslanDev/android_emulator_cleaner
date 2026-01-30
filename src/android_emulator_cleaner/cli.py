@@ -36,17 +36,19 @@ from .ui import (
 )
 
 # Custom questionary style
-CUSTOM_STYLE = Style([
-    ('qmark', 'fg:cyan bold'),
-    ('question', 'fg:white bold'),
-    ('answer', 'fg:cyan bold'),
-    ('pointer', 'fg:cyan bold'),
-    ('highlighted', 'fg:cyan bold noreverse'),
-    ('selected', 'fg:ansiblue noreverse'),
-    ('separator', 'fg:cyan'),
-    ('instruction', 'fg:gray'),
-    ('text', 'fg:white'),
-])
+CUSTOM_STYLE = Style(
+    [
+        ("qmark", "fg:cyan bold"),
+        ("question", "fg:white bold"),
+        ("answer", "fg:cyan bold"),
+        ("pointer", "fg:cyan bold"),
+        ("highlighted", "fg:cyan bold noreverse"),
+        ("selected", "fg:ansiblue noreverse"),
+        ("separator", "fg:cyan"),
+        ("instruction", "fg:gray"),
+        ("text", "fg:white"),
+    ]
+)
 
 
 def select_devices(devices: list[Device]) -> list[Device]:
@@ -69,21 +71,18 @@ def select_devices(devices: list[Device]) -> list[Device]:
     from rich import box
     from rich.panel import Panel
 
-    console.print(Panel(
-        "[bold white]Multiple devices detected![/bold white]\n"
-        "Select which devices to clean.",
-        title="[bold cyan]Device Selection[/bold cyan]",
-        border_style="cyan",
-        box=box.ROUNDED
-    ))
+    console.print(
+        Panel(
+            "[bold white]Multiple devices detected![/bold white]\nSelect which devices to clean.",
+            title="[bold cyan]Device Selection[/bold cyan]",
+            border_style="cyan",
+            box=box.ROUNDED,
+        )
+    )
     console.print()
 
     choices = [
-        questionary.Choice(
-            title=device.display_name,
-            value=device,
-            checked=True
-        )
+        questionary.Choice(title=device.display_name, value=device, checked=True)
         for device in devices
     ]
 
@@ -91,7 +90,7 @@ def select_devices(devices: list[Device]) -> list[Device]:
         "Select devices:",
         choices=choices,
         style=CUSTOM_STYLE,
-        instruction="(SPACE to toggle, ENTER to confirm)"
+        instruction="(SPACE to toggle, ENTER to confirm)",
     ).ask()
 
     return selected if selected else []
@@ -119,11 +118,7 @@ def select_apps_to_uninstall(device: Device) -> list[str]:
     console.print(f"\n[dim]Found {len(apps)} user-installed apps[/dim]\n")
 
     choices = [
-        questionary.Choice(
-            title=f"📦 {app['package']}",
-            value=app['package'],
-            checked=False
-        )
+        questionary.Choice(title=f"📦 {app['package']}", value=app["package"], checked=False)
         for app in apps
     ]
 
@@ -131,7 +126,7 @@ def select_apps_to_uninstall(device: Device) -> list[str]:
         "Select apps to uninstall (optional, press ENTER to skip):",
         choices=choices,
         style=CUSTOM_STYLE,
-        instruction="(SPACE to toggle, ENTER to continue)"
+        instruction="(SPACE to toggle, ENTER to continue)",
     ).ask()
 
     return selected if selected else []
@@ -150,7 +145,7 @@ def select_cleanup_options() -> list[CleanupOption]:
         questionary.Choice(
             title=f"{option.icon} {option.name} {option.risk_indicator} - {option.description}",
             value=option,
-            checked=True
+            checked=True,
         )
         for option in options
     ]
@@ -160,7 +155,7 @@ def select_cleanup_options() -> list[CleanupOption]:
         "Select items to clean (all selected by default):",
         choices=choices,
         style=CUSTOM_STYLE,
-        instruction="(Press SPACE to toggle, ENTER to confirm)"
+        instruction="(Press SPACE to toggle, ENTER to confirm)",
     ).ask()
 
     return selected if selected else []
@@ -179,14 +174,7 @@ def select_avds(avds: list[AVD]) -> list[AVD]:
     if not avds:
         return []
 
-    choices = [
-        questionary.Choice(
-            title=avd.display_name,
-            value=avd,
-            checked=False
-        )
-        for avd in avds
-    ]
+    choices = [questionary.Choice(title=avd.display_name, value=avd, checked=False) for avd in avds]
 
     while True:
         console.print()
@@ -194,7 +182,7 @@ def select_avds(avds: list[AVD]) -> list[AVD]:
             "Select AVDs to clean:",
             choices=choices,
             style=CUSTOM_STYLE,
-            instruction="(SPACE to toggle, ENTER to confirm)"
+            instruction="(SPACE to toggle, ENTER to confirm)",
         ).ask()
 
         if selected is None:
@@ -243,7 +231,7 @@ def clean_running_devices() -> bool:
     want_uninstall = questionary.confirm(
         "Do you want to uninstall any apps?",
         default=False,
-        style=Style([('question', 'fg:cyan bold')])
+        style=Style([("question", "fg:cyan bold")]),
     ).ask()
 
     if want_uninstall:
@@ -264,16 +252,12 @@ def clean_running_devices() -> bool:
     # Confirmation
     total_apps = sum(len(apps) for apps in apps_to_uninstall.values())
     console.print()
-    console.print(create_confirmation_panel(
-        len(selected_devices),
-        total_apps,
-        len(selected_options)
-    ))
+    console.print(
+        create_confirmation_panel(len(selected_devices), total_apps, len(selected_options))
+    )
 
     confirm = questionary.confirm(
-        "Proceed with cleanup?",
-        default=True,
-        style=Style([('question', 'fg:yellow bold')])
+        "Proceed with cleanup?", default=True, style=Style([("question", "fg:yellow bold")])
     ).ask()
 
     if not confirm:
@@ -303,7 +287,7 @@ def clean_running_devices() -> bool:
                     cleaner = DeviceCleaner(device)
                     results = cleaner.uninstall_apps(
                         apps_to_uninstall[device.device_id],
-                        lambda msg: progress.update(task, description=f"[cyan]{msg}")
+                        lambda msg: progress.update(task, description=f"[cyan]{msg}"),
                     )
                     all_uninstall_results[device.device_id] = results
                     progress.advance(task, len(apps_to_uninstall[device.device_id]))
@@ -319,8 +303,7 @@ def clean_running_devices() -> bool:
             for device in selected_devices:
                 cleaner = DeviceCleaner(device)
                 results = cleaner.run_all_cleanups(
-                    selected_options,
-                    lambda msg: progress.update(task, description=f"[cyan]{msg}")
+                    selected_options, lambda msg: progress.update(task, description=f"[cyan]{msg}")
                 )
                 all_cleanup_results[device.device_id] = results
                 progress.advance(task, len(selected_options))
@@ -348,7 +331,7 @@ def clean_running_devices() -> bool:
             cleanup_results,
             uninstall_results,
             storage_before.get(device.device_id, StorageInfo()),
-            storage_after.get(device.device_id, StorageInfo())
+            storage_after.get(device.device_id, StorageInfo()),
         )
         total_success += s
         total_operations += t
@@ -356,13 +339,15 @@ def clean_running_devices() -> bool:
         total_uninstalls += ut
 
     console.print()
-    console.print(create_summary_panel(
-        len(selected_devices),
-        total_success,
-        total_operations,
-        total_uninstall_success,
-        total_uninstalls
-    ))
+    console.print(
+        create_summary_panel(
+            len(selected_devices),
+            total_success,
+            total_operations,
+            total_uninstall_success,
+            total_uninstalls,
+        )
+    )
 
     return True
 
@@ -383,11 +368,9 @@ def clean_avd_files() -> bool:
 
     # Show AVD summary
     total_size, total_snapshots = get_total_avd_stats(avds)
-    console.print(create_avd_summary_panel(
-        len(avds),
-        format_size(total_size),
-        format_size(total_snapshots)
-    ))
+    console.print(
+        create_avd_summary_panel(len(avds), format_size(total_size), format_size(total_snapshots))
+    )
 
     # Select AVDs
     selected_avds = select_avds(avds)
@@ -402,7 +385,7 @@ def clean_avd_files() -> bool:
             questionary.Choice("📸 Snapshots (frees most space)", value="snapshots", checked=True),
             questionary.Choice("🗑️ Cache files", value="cache", checked=True),
         ],
-        style=CUSTOM_STYLE
+        style=CUSTOM_STYLE,
     ).ask()
 
     if not avd_clean_options:
@@ -419,7 +402,7 @@ def clean_avd_files() -> bool:
     confirm = questionary.confirm(
         f"Clean {len(avd_clean_options)} item type(s) from {len(selected_avds)} AVD(s)?",
         default=True,
-        style=Style([('question', 'fg:yellow bold')])
+        style=Style([("question", "fg:yellow bold")]),
     ).ask()
 
     if not confirm:
@@ -432,8 +415,7 @@ def clean_avd_files() -> bool:
 
     with create_progress_bar() as progress:
         task = progress.add_task(
-            "[cyan]Cleaning AVDs...",
-            total=len(selected_avds) * len(avd_clean_options)
+            "[cyan]Cleaning AVDs...", total=len(selected_avds) * len(avd_clean_options)
         )
 
         for avd in selected_avds:
@@ -468,16 +450,16 @@ def main() -> None:
             questionary.Choice(
                 "📱 Running Devices - Clean cache, temp files via ADB",
                 value="running",
-                checked=True
+                checked=True,
             ),
             questionary.Choice(
                 "💾 AVD Files - Clean snapshots, cache from all emulators (even stopped ones)",
                 value="avd",
-                checked=True
+                checked=True,
             ),
         ],
         style=CUSTOM_STYLE,
-        instruction="(SPACE to toggle, ENTER to confirm)"
+        instruction="(SPACE to toggle, ENTER to confirm)",
     ).ask()
 
     if not mode:

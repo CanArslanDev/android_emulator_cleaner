@@ -18,7 +18,7 @@ def create_header_panel() -> Panel:
         "[bold cyan]ANDROID EMULATOR CLEANER[/bold cyan]\n"
         "[dim]Free up space without losing your data[/dim]",
         border_style="cyan",
-        box=box.DOUBLE
+        box=box.DOUBLE,
     )
 
 
@@ -37,7 +37,7 @@ def create_info_panel() -> Panel:
         title="[bold cyan]Info[/bold cyan]",
         border_style="cyan",
         box=box.ROUNDED,
-        padding=(0, 1)
+        padding=(0, 1),
     )
 
 
@@ -64,7 +64,7 @@ def create_storage_panel(storage_info: StorageInfo) -> Panel:
         title="[bold yellow]Storage[/bold yellow]",
         border_style="yellow",
         box=box.ROUNDED,
-        padding=(0, 1)
+        padding=(0, 1),
     )
 
 
@@ -83,7 +83,7 @@ def create_controls_panel() -> Panel:
         title="[bold cyan]Controls[/bold cyan]",
         border_style="cyan",
         box=box.ROUNDED,
-        padding=(0, 1)
+        padding=(0, 1),
     )
 
 
@@ -100,9 +100,7 @@ def print_header_row(storage_info: StorageInfo) -> None:
     layout_table.add_column(ratio=1)
 
     layout_table.add_row(
-        create_info_panel(),
-        create_storage_panel(storage_info),
-        create_controls_panel()
+        create_info_panel(), create_storage_panel(storage_info), create_controls_panel()
     )
     console.print(layout_table)
 
@@ -129,26 +127,20 @@ def create_confirmation_panel(device_count: int, app_count: int, option_count: i
         "This action cannot be undone!",
         title="[bold yellow]Confirmation[/bold yellow]",
         border_style="yellow",
-        box=box.ROUNDED
+        box=box.ROUNDED,
     )
 
 
 def create_completion_panel() -> Panel:
     """Create the cleanup completion panel."""
     return Panel(
-        "[bold green]✨ Cleanup Complete! ✨[/bold green]",
-        border_style="green",
-        box=box.DOUBLE
+        "[bold green]✨ Cleanup Complete! ✨[/bold green]", border_style="green", box=box.DOUBLE
     )
 
 
 def create_results_table() -> Table:
     """Create a table for cleanup results."""
-    table = Table(
-        show_header=True,
-        header_style="bold white",
-        box=box.ROUNDED
-    )
+    table = Table(show_header=True, header_style="bold white", box=box.ROUNDED)
     table.add_column("Status", justify="center", width=8)
     table.add_column("", width=4)
     table.add_column("Option", style="white", min_width=18)
@@ -168,12 +160,7 @@ def add_result_row(table: Table, result: CleanupResult) -> None:
 
     status = "[bold green]✓ OK[/bold green]" if result.success else "[bold red]✗ FAIL[/bold red]"
 
-    table.add_row(
-        status,
-        result.option.icon,
-        result.option.name,
-        output or "Completed"
-    )
+    table.add_row(status, result.option.icon, result.option.name, output or "Completed")
 
 
 def print_device_results(
@@ -181,7 +168,7 @@ def print_device_results(
     cleanup_results: list[CleanupResult],
     uninstall_results: list[UninstallResult],
     storage_before: StorageInfo,
-    storage_after: StorageInfo
+    storage_after: StorageInfo,
 ) -> tuple[int, int, int, int]:
     """
     Print results for a single device.
@@ -243,7 +230,7 @@ def create_summary_panel(
     cleanup_success: int,
     cleanup_total: int,
     uninstall_success: int,
-    uninstall_total: int
+    uninstall_total: int,
 ) -> Panel:
     """
     Create a summary panel.
@@ -261,16 +248,20 @@ def create_summary_panel(
     summary_lines = [f"[bold white]Devices Cleaned:[/bold white] {device_count}"]
 
     if uninstall_total > 0:
-        summary_lines.append(f"[bold white]Apps Uninstalled:[/bold white] {uninstall_success}/{uninstall_total}")
+        summary_lines.append(
+            f"[bold white]Apps Uninstalled:[/bold white] {uninstall_success}/{uninstall_total}"
+        )
 
     if cleanup_total > 0:
-        summary_lines.append(f"[bold white]Cleanup Operations:[/bold white] {cleanup_success}/{cleanup_total} successful")
+        summary_lines.append(
+            f"[bold white]Cleanup Operations:[/bold white] {cleanup_success}/{cleanup_total} successful"
+        )
 
     return Panel(
         "\n".join(summary_lines),
         title="[bold green]Summary[/bold green]",
         border_style="green",
-        box=box.ROUNDED
+        box=box.ROUNDED,
     )
 
 
@@ -292,7 +283,7 @@ def create_avd_summary_panel(avd_count: int, total_size: str, snapshot_size: str
         f"  📸 Snapshots:  [yellow]{snapshot_size}[/yellow] (can be freed)",
         title="[bold cyan]AVD Summary[/bold cyan]",
         border_style="cyan",
-        box=box.ROUNDED
+        box=box.ROUNDED,
     )
 
 
@@ -310,7 +301,7 @@ def create_avd_result_panel(total_freed: str) -> Panel:
         f"[bold green]✨ AVD Cleanup Complete![/bold green]\n\n"
         f"  💾 Total Freed: [green]{total_freed}[/green]",
         border_style="green",
-        box=box.ROUNDED
+        box=box.ROUNDED,
     )
 
 
@@ -328,5 +319,5 @@ def create_running_warning_panel(count: int) -> Panel:
         f"[bold yellow]Warning:[/bold yellow] {count} selected AVD(s) are running.\n"
         "They will be skipped. Stop them first to clean.",
         border_style="yellow",
-        box=box.ROUNDED
+        box=box.ROUNDED,
     )

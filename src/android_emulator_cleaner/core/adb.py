@@ -31,10 +31,7 @@ class ADBClient:
         self.device_id = device_id
 
     def run_command(
-        self,
-        command: str,
-        timeout: int = DEFAULT_TIMEOUT,
-        device_id: str | None = None
+        self, command: str, timeout: int = DEFAULT_TIMEOUT, device_id: str | None = None
     ) -> tuple[bool, str]:
         """
         Execute an ADB command.
@@ -55,11 +52,7 @@ class ADBClient:
 
         try:
             result = subprocess.run(
-                command,
-                shell=True,
-                capture_output=True,
-                text=True,
-                timeout=timeout
+                command, shell=True, capture_output=True, text=True, timeout=timeout
             )
             output = result.stdout.strip() or result.stderr.strip()
             success = result.returncode == 0 or "not installed" in output.lower()
@@ -154,9 +147,9 @@ class ADBClient:
             return []
 
         packages = []
-        for line in output.strip().split('\n'):
-            if line.startswith('package:'):
-                package_name = line.replace('package:', '').strip()
+        for line in output.strip().split("\n"):
+            if line.startswith("package:"):
+                package_name = line.replace("package:", "").strip()
                 if package_name:
                     packages.append(package_name)
 
@@ -177,10 +170,10 @@ def get_connected_devices() -> list[Device]:
         return []
 
     devices = []
-    lines = output.strip().split('\n')[1:]  # Skip header
+    lines = output.strip().split("\n")[1:]  # Skip header
 
     for line in lines:
-        if not line.strip() or 'device' not in line:
+        if not line.strip() or "device" not in line:
             continue
 
         parts = line.split()
@@ -190,21 +183,25 @@ def get_connected_devices() -> list[Device]:
         device_id = parts[0]
         status = parts[1]
 
-        if status != 'device':
+        if status != "device":
             continue
 
         # Create device-specific client for property queries
         device_client = ADBClient(device_id)
 
-        device_type = DeviceType.EMULATOR if device_id.startswith("emulator") else DeviceType.PHYSICAL
+        device_type = (
+            DeviceType.EMULATOR if device_id.startswith("emulator") else DeviceType.PHYSICAL
+        )
 
-        devices.append(Device(
-            device_id=device_id,
-            status=status,
-            device_type=device_type,
-            model=device_client.get_property("ro.product.model"),
-            android_version=device_client.get_property("ro.build.version.release"),
-            sdk_version=device_client.get_property("ro.build.version.sdk")
-        ))
+        devices.append(
+            Device(
+                device_id=device_id,
+                status=status,
+                device_type=device_type,
+                model=device_client.get_property("ro.product.model"),
+                android_version=device_client.get_property("ro.build.version.release"),
+                sdk_version=device_client.get_property("ro.build.version.sdk"),
+            )
+        )
 
     return devices

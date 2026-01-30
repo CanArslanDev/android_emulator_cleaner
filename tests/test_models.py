@@ -1,6 +1,5 @@
 """Tests for data models."""
 
-
 from android_emulator_cleaner.models import (
     CleanupCategory,
     CleanupOption,
@@ -74,7 +73,7 @@ class TestCleanupOption:
             command="test",
             path="/test",
             icon="📥",
-            risk_level=RiskLevel.MEDIUM
+            risk_level=RiskLevel.MEDIUM,
         )
         assert option.risk_color == "yellow"
 
@@ -87,7 +86,7 @@ class TestCleanupOption:
             command="test",
             path="/test",
             icon="📥",
-            risk_level=RiskLevel.HIGH
+            risk_level=RiskLevel.HIGH,
         )
         assert option.risk_color == "red"
 
@@ -104,7 +103,7 @@ class TestCleanupOption:
             command="test",
             path="/test",
             icon="📥",
-            risk_level=RiskLevel.MEDIUM
+            risk_level=RiskLevel.MEDIUM,
         )
         assert option.risk_indicator == "🟡"
 
@@ -147,7 +146,7 @@ class TestDeviceCleanupSummary:
                 CleanupResult(option=mock_cleanup_option, success=True, output="OK"),
                 CleanupResult(option=mock_cleanup_option, success=False, output="Error"),
                 CleanupResult(option=mock_cleanup_option, success=True, output="OK"),
-            ]
+            ],
         )
         assert summary.successful_cleanups == 2
 
@@ -158,6 +157,6 @@ class TestDeviceCleanupSummary:
             uninstall_results=[
                 UninstallResult(package="com.test.app1", success=True, output="Success"),
                 UninstallResult(package="com.test.app2", success=False, output="Failure"),
-            ]
+            ],
         )
         assert summary.successful_uninstalls == 1

@@ -101,7 +101,7 @@ class TestCleanAVDSnapshots:
                 total_size="1GB",
                 snapshot_size="0B",
                 cache_size="0B",
-                is_running=False
+                is_running=False,
             )
 
             success, message, freed = clean_avd_snapshots(avd)
@@ -126,7 +126,7 @@ class TestCleanAVDSnapshots:
                 total_size="1GB",
                 snapshot_size="1000B",
                 cache_size="0B",
-                is_running=False
+                is_running=False,
             )
 
             success, message, freed = clean_avd_snapshots(avd)
@@ -154,7 +154,7 @@ class TestCleanAVDCache:
                 total_size="1GB",
                 snapshot_size="0B",
                 cache_size="0B",
-                is_running=False
+                is_running=False,
             )
 
             success, message, freed = clean_avd_cache(avd)
@@ -177,7 +177,7 @@ class TestCleanAVDCache:
                 total_size="1GB",
                 snapshot_size="0B",
                 cache_size="800B",
-                is_running=False
+                is_running=False,
             )
 
             success, message, freed = clean_avd_cache(avd)

@@ -44,7 +44,7 @@ def format_size(size_bytes: int) -> str:
     Returns:
         Formatted string (e.g., "1.5GB")
     """
-    for unit in ['B', 'KB', 'MB', 'GB']:
+    for unit in ["B", "KB", "MB", "GB"]:
         if size_bytes < 1024:
             return f"{size_bytes:.1f}{unit}"
         size_bytes /= 1024
@@ -65,15 +65,13 @@ def get_running_emulator_names() -> list[str]:
     if not success:
         return running
 
-    for line in output.strip().split('\n')[1:]:
-        if 'emulator' in line and 'device' in line:
+    for line in output.strip().split("\n")[1:]:
+        if "emulator" in line and "device" in line:
             device_id = line.split()[0]
-            name_success, name_output = client.run_command(
-                f"adb -s {device_id} emu avd name"
-            )
+            name_success, name_output = client.run_command(f"adb -s {device_id} emu avd name")
             if name_success and name_output:
-                avd_name = name_output.split('\n')[0].strip()
-                if avd_name and avd_name != 'OK':
+                avd_name = name_output.split("\n")[0].strip()
+                if avd_name and avd_name != "OK":
                     running.append(avd_name)
 
     return running
@@ -120,14 +118,16 @@ def get_avd_list() -> list[AVD]:
         for cache_file in avd_dir.glob("cache.img*"):
             cache_size += cache_file.stat().st_size
 
-        avds.append(AVD(
-            name=avd_name,
-            path=str(avd_dir),
-            total_size=format_size(total_size),
-            snapshot_size=format_size(snapshot_size),
-            cache_size=format_size(cache_size),
-            is_running=avd_name in running_avds
-        ))
+        avds.append(
+            AVD(
+                name=avd_name,
+                path=str(avd_dir),
+                total_size=format_size(total_size),
+                snapshot_size=format_size(snapshot_size),
+                cache_size=format_size(cache_size),
+                is_running=avd_name in running_avds,
+            )
+        )
 
     return avds
 

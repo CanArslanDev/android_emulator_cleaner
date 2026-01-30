@@ -23,7 +23,7 @@ class TestADBClient:
         """Test successful command execution."""
         client = ADBClient()
 
-        with patch('subprocess.run', return_value=mock_subprocess_success):
+        with patch("subprocess.run", return_value=mock_subprocess_success):
             success, output = client.run_command("adb devices")
 
         assert success is True
@@ -33,7 +33,7 @@ class TestADBClient:
         """Test failed command execution."""
         client = ADBClient()
 
-        with patch('subprocess.run', return_value=mock_subprocess_failure):
+        with patch("subprocess.run", return_value=mock_subprocess_failure):
             success, output = client.run_command("adb devices")
 
         assert success is False
@@ -43,7 +43,7 @@ class TestADBClient:
         """Test command execution with device ID."""
         client = ADBClient("emulator-5554")
 
-        with patch('subprocess.run', return_value=mock_subprocess_success) as mock_run:
+        with patch("subprocess.run", return_value=mock_subprocess_success) as mock_run:
             client.run_command("adb shell ls")
 
         # Verify -s flag was added
@@ -55,7 +55,7 @@ class TestADBClient:
         """Test command timeout handling."""
         client = ADBClient()
 
-        with patch('subprocess.run') as mock_run:
+        with patch("subprocess.run") as mock_run:
             mock_run.side_effect = subprocess.TimeoutExpired("cmd", 30)
             success, output = client.run_command("adb shell sleep 60")
 
@@ -66,7 +66,7 @@ class TestADBClient:
         """Test shell command execution."""
         client = ADBClient()
 
-        with patch('subprocess.run', return_value=mock_subprocess_success) as mock_run:
+        with patch("subprocess.run", return_value=mock_subprocess_success) as mock_run:
             success, output = client.shell("ls /data")
 
         call_args = mock_run.call_args
@@ -82,7 +82,7 @@ class TestADBClient:
         mock_result.stdout = "14\n"
         mock_result.stderr = ""
 
-        with patch('subprocess.run', return_value=mock_result):
+        with patch("subprocess.run", return_value=mock_result):
             value = client.get_property("ro.build.version.release")
 
         assert value == "14"
@@ -96,7 +96,7 @@ class TestADBClient:
         mock_result.stdout = ""
         mock_result.stderr = "Error"
 
-        with patch('subprocess.run', return_value=mock_result):
+        with patch("subprocess.run", return_value=mock_result):
             value = client.get_property("unknown.property")
 
         assert value == "Unknown"
@@ -110,7 +110,7 @@ class TestADBClient:
         mock_result.stdout = "package:com.example.app1\npackage:com.example.app2\n"
         mock_result.stderr = ""
 
-        with patch('subprocess.run', return_value=mock_result):
+        with patch("subprocess.run", return_value=mock_result):
             packages = client.list_packages()
 
         assert len(packages) == 2
@@ -126,7 +126,7 @@ class TestADBClient:
         mock_result.stdout = ""
         mock_result.stderr = ""
 
-        with patch('subprocess.run', return_value=mock_result):
+        with patch("subprocess.run", return_value=mock_result):
             packages = client.list_packages()
 
         assert packages == []
@@ -149,7 +149,10 @@ emulator-5554          device product:sdk_gphone64_arm64 model:sdk_gphone64_arm6
         mock_prop_output.stdout = "test_value"
         mock_prop_output.stderr = ""
 
-        with patch('subprocess.run', side_effect=[mock_devices_output, mock_prop_output, mock_prop_output, mock_prop_output]):
+        with patch(
+            "subprocess.run",
+            side_effect=[mock_devices_output, mock_prop_output, mock_prop_output, mock_prop_output],
+        ):
             devices = get_connected_devices()
 
         assert len(devices) == 1
@@ -162,7 +165,7 @@ emulator-5554          device product:sdk_gphone64_arm64 model:sdk_gphone64_arm6
         mock_result.stdout = "List of devices attached\n"
         mock_result.stderr = ""
 
-        with patch('subprocess.run', return_value=mock_result):
+        with patch("subprocess.run", return_value=mock_result):
             devices = get_connected_devices()
 
         assert devices == []
@@ -174,7 +177,7 @@ emulator-5554          device product:sdk_gphone64_arm64 model:sdk_gphone64_arm6
         mock_result.stdout = ""
         mock_result.stderr = "error: cannot connect to daemon"
 
-        with patch('subprocess.run', return_value=mock_result):
+        with patch("subprocess.run", return_value=mock_result):
             devices = get_connected_devices()
 
         assert devices == []

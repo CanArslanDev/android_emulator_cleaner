@@ -62,11 +62,11 @@ android-emulator-cleaner = "android_emulator_cleaner:run"
 aec = "android_emulator_cleaner:run"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/android_emulator_cleaner"
-Documentation = "https://github.com/yourusername/android_emulator_cleaner#readme"
-Repository = "https://github.com/yourusername/android_emulator_cleaner"
-Issues = "https://github.com/yourusername/android_emulator_cleaner/issues"
-Changelog = "https://github.com/yourusername/android_emulator_cleaner/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/CanArslanDev/android_emulator_cleaner"
+Documentation = "https://github.com/CanArslanDev/android_emulator_cleaner#readme"
+Repository = "https://github.com/CanArslanDev/android_emulator_cleaner"
+Issues = "https://github.com/CanArslanDev/android_emulator_cleaner/issues"
+Changelog = "https://github.com/CanArslanDev/android_emulator_cleaner/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.sdist]
 include = [

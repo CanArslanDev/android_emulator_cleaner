@@ -27,7 +27,7 @@ CLEANUP_OPTIONS: list[CleanupOption] = [
         command="adb shell pm trim-caches 999999999999999",
         path="/data/data/*/cache",
         icon="🗑️",
-        risk_level=RiskLevel.LOW
+        risk_level=RiskLevel.LOW,
     ),
     CleanupOption(
         category=CleanupCategory.TEMP_FILES,
@@ -36,7 +36,7 @@ CLEANUP_OPTIONS: list[CleanupOption] = [
         command="adb shell rm -rf /data/local/tmp/*",
         path="/data/local/tmp/*",
         icon="📁",
-        risk_level=RiskLevel.LOW
+        risk_level=RiskLevel.LOW,
     ),
     CleanupOption(
         category=CleanupCategory.DOWNLOADS,
@@ -45,7 +45,7 @@ CLEANUP_OPTIONS: list[CleanupOption] = [
         command="adb shell rm -rf /sdcard/Download/*",
         path="/sdcard/Download/*",
         icon="📥",
-        risk_level=RiskLevel.MEDIUM
+        risk_level=RiskLevel.MEDIUM,
     ),
     CleanupOption(
         category=CleanupCategory.SCREENSHOTS,
@@ -54,7 +54,7 @@ CLEANUP_OPTIONS: list[CleanupOption] = [
         command="adb shell rm -rf /sdcard/Pictures/Screenshots/*",
         path="/sdcard/Pictures/Screenshots/*",
         icon="📸",
-        risk_level=RiskLevel.MEDIUM
+        risk_level=RiskLevel.MEDIUM,
     ),
     CleanupOption(
         category=CleanupCategory.SDCARD_CACHES,
@@ -63,7 +63,7 @@ CLEANUP_OPTIONS: list[CleanupOption] = [
         command="adb shell rm -rf /sdcard/Android/data/*/cache/*",
         path="/sdcard/Android/data/*/cache/*",
         icon="💾",
-        risk_level=RiskLevel.LOW
+        risk_level=RiskLevel.LOW,
     ),
 ]
 
@@ -98,9 +98,7 @@ class DeviceCleaner:
         return False
 
     def run_cleanup(
-        self,
-        option: CleanupOption,
-        progress_callback: Callable[[str], None] | None = None
+        self, option: CleanupOption, progress_callback: Callable[[str], None] | None = None
     ) -> CleanupResult:
         """
         Run a single cleanup operation.
@@ -117,16 +115,10 @@ class DeviceCleaner:
 
         success, output = self.client.run_command(option.command)
 
-        return CleanupResult(
-            option=option,
-            success=success,
-            output=output
-        )
+        return CleanupResult(option=option, success=success, output=output)
 
     def run_all_cleanups(
-        self,
-        options: list[CleanupOption],
-        progress_callback: Callable[[str], None] | None = None
+        self, options: list[CleanupOption], progress_callback: Callable[[str], None] | None = None
     ) -> list[CleanupResult]:
         """
         Run multiple cleanup operations.
@@ -155,13 +147,7 @@ class DeviceCleaner:
             List of dicts with 'package' and 'name' keys
         """
         packages = self.client.list_packages(third_party_only=True)
-        return [
-            {
-                'package': pkg,
-                'name': pkg.split('.')[-1]
-            }
-            for pkg in packages
-        ]
+        return [{"package": pkg, "name": pkg.split(".")[-1]} for pkg in packages]
 
     def uninstall_app(self, package: str) -> UninstallResult:
         """
@@ -174,16 +160,10 @@ class DeviceCleaner:
             UninstallResult object
         """
         success, output = self.client.uninstall_package(package)
-        return UninstallResult(
-            package=package,
-            success=success,
-            output=output
-        )
+        return UninstallResult(package=package, success=success, output=output)
 
     def uninstall_apps(
-        self,
-        packages: list[str],
-        progress_callback: Callable[[str], None] | None = None
+        self, packages: list[str], progress_callback: Callable[[str], None] | None = None
     ) -> list[UninstallResult]:
         """
         Uninstall multiple applications.
