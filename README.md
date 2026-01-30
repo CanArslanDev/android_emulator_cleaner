@@ -93,12 +93,14 @@ cd android_emulator_cleaner
 pip install -e .
 ```
 
-### Quick Start (No Installation)
+### Quick Start (From Source)
 
 ```bash
-# Run directly with Python
-pip install rich questionary
-python android_emulator_cleaner.py
+# Clone and run directly
+git clone https://github.com/CanArslanDev/android_emulator_cleaner.git
+cd android_emulator_cleaner
+pip install -r requirements.txt
+python -m android_emulator_cleaner
 ```
 
 ## 🚀 Usage
