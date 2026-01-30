@@ -193,12 +193,14 @@ def print_device_results(
     if uninstall_results:
         console.print()
         console.print("[bold white]Uninstalled Apps:[/bold white]")
-        for result in uninstall_results:
-            if result.success:
+        for uninstall_result in uninstall_results:
+            if uninstall_result.success:
                 uninstall_success += 1
-                console.print(f"  [green]✓[/green] {result.package}")
+                console.print(f"  [green]✓[/green] {uninstall_result.package}")
             else:
-                console.print(f"  [red]✗[/red] {result.package} - {result.output}")
+                console.print(
+                    f"  [red]✗[/red] {uninstall_result.package} - {uninstall_result.output}"
+                )
 
     # Cleanup results table
     success_count = 0
@@ -206,10 +208,10 @@ def print_device_results(
         console.print()
         table = create_results_table()
 
-        for result in cleanup_results:
-            if result.success:
+        for cleanup_result in cleanup_results:
+            if cleanup_result.success:
                 success_count += 1
-            add_result_row(table, result)
+            add_result_row(table, cleanup_result)
 
         console.print(table)
 

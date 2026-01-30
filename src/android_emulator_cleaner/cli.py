@@ -5,6 +5,7 @@ This module contains the main CLI logic and user interaction flows.
 """
 
 import sys
+from typing import cast
 
 import questionary
 from questionary import Style
@@ -192,7 +193,7 @@ def select_avds(avds: list[AVD]) -> list[AVD]:
             console.print("[bold red]Please select at least one AVD to continue.[/bold red]")
             continue
 
-        return selected
+        return cast(list[AVD], selected)
 
 
 def clean_running_devices() -> bool:
@@ -285,11 +286,11 @@ def clean_running_devices() -> bool:
             for device in selected_devices:
                 if device.device_id in apps_to_uninstall:
                     cleaner = DeviceCleaner(device)
-                    results = cleaner.uninstall_apps(
+                    uninstall_results = cleaner.uninstall_apps(
                         apps_to_uninstall[device.device_id],
                         lambda msg: progress.update(task, description=f"[cyan]{msg}"),
                     )
-                    all_uninstall_results[device.device_id] = results
+                    all_uninstall_results[device.device_id] = uninstall_results
                     progress.advance(task, len(apps_to_uninstall[device.device_id]))
 
     # Perform cleanup
@@ -302,10 +303,10 @@ def clean_running_devices() -> bool:
 
             for device in selected_devices:
                 cleaner = DeviceCleaner(device)
-                results = cleaner.run_all_cleanups(
+                cleanup_results = cleaner.run_all_cleanups(
                     selected_options, lambda msg: progress.update(task, description=f"[cyan]{msg}")
                 )
-                all_cleanup_results[device.device_id] = results
+                all_cleanup_results[device.device_id] = cleanup_results
                 progress.advance(task, len(selected_options))
 
     # Get storage after
