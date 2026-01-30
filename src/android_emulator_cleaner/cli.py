@@ -11,7 +11,9 @@ import questionary
 from questionary import Style
 
 from .core import (
+    ADBNotFoundError,
     DeviceCleaner,
+    check_adb_available,
     clean_avd_cache,
     clean_avd_snapshots,
     format_size,
@@ -488,7 +490,18 @@ def main() -> None:
 def run() -> None:
     """Entry point wrapper with error handling."""
     try:
+        # Check ADB availability before starting
+        if not check_adb_available():
+            console.print(
+                "[bold red]Error:[/bold red] ADB not found in PATH.\n\n"
+                "Please install Android SDK Platform Tools and ensure 'adb' is in your system PATH.\n"
+                "Download from: https://developer.android.com/studio/releases/platform-tools"
+            )
+            sys.exit(1)
         main()
+    except ADBNotFoundError as e:
+        console.print(f"[bold red]Error:[/bold red] {e}")
+        sys.exit(1)
     except KeyboardInterrupt:
         console.print("\n\n[yellow]Interrupted by user.[/yellow]")
         sys.exit(0)

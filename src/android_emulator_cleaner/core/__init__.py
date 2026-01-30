@@ -1,6 +1,12 @@
 """Core functionality for Android Emulator Cleaner."""
 
-from .adb import ADBClient, ADBError, get_connected_devices
+from .adb import (
+    ADBClient,
+    ADBError,
+    ADBNotFoundError,
+    check_adb_available,
+    get_connected_devices,
+)
 from .avd import (
     clean_avd_cache,
     clean_avd_snapshots,
@@ -14,8 +20,10 @@ from .cleaner import CLEANUP_OPTIONS, DeviceCleaner, get_cleanup_options
 __all__ = [
     "ADBClient",
     "ADBError",
+    "ADBNotFoundError",
     "CLEANUP_OPTIONS",
     "DeviceCleaner",
+    "check_adb_available",
     "clean_avd_cache",
     "clean_avd_snapshots",
     "format_size",

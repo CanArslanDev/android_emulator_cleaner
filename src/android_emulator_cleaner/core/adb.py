@@ -4,16 +4,48 @@ ADB (Android Debug Bridge) operations module.
 This module handles all interactions with Android devices via ADB commands.
 """
 
+import shlex
+import shutil
 import subprocess
+import sys
 import time
 
 from ..models import Device, DeviceType, StorageInfo
+
+# Detect platform
+IS_WINDOWS = sys.platform == "win32"
 
 
 class ADBError(Exception):
     """Exception raised for ADB-related errors."""
 
     pass
+
+
+class ADBNotFoundError(ADBError):
+    """Exception raised when ADB is not found in PATH."""
+
+    pass
+
+
+def find_adb() -> str | None:
+    """
+    Find ADB executable in PATH.
+
+    Returns:
+        Path to adb executable or None if not found
+    """
+    return shutil.which("adb")
+
+
+def check_adb_available() -> bool:
+    """
+    Check if ADB is available in PATH.
+
+    Returns:
+        True if ADB is found
+    """
+    return find_adb() is not None
 
 
 class ADBClient:
@@ -29,6 +61,19 @@ class ADBClient:
             device_id: Optional device ID to target specific device
         """
         self.device_id = device_id
+        self._adb_path: str | None = None
+
+    @property
+    def adb_path(self) -> str:
+        """Get the ADB executable path."""
+        if self._adb_path is None:
+            self._adb_path = find_adb()
+            if self._adb_path is None:
+                raise ADBNotFoundError(
+                    "ADB not found in PATH. Please install Android SDK Platform Tools "
+                    "and ensure 'adb' is in your system PATH."
+                )
+        return self._adb_path
 
     def run_command(
         self, command: str, timeout: int = DEFAULT_TIMEOUT, device_id: str | None = None
@@ -46,17 +91,30 @@ class ADBClient:
         """
         target_device = device_id or self.device_id
 
-        # Insert -s device_id after 'adb' if device_id is provided
-        if target_device and command.startswith("adb "):
-            command = f"adb -s {target_device} {command[4:]}"
+        # Build command list for safer execution
+        cmd_args = command[4:].strip() if command.startswith("adb ") else command
+
+        # Build the command as a list
+        cmd_list = [self.adb_path]
+
+        if target_device:
+            cmd_list.extend(["-s", target_device])
+
+        # Parse remaining arguments
+        if IS_WINDOWS:
+            # On Windows, use simple split for basic commands
+            cmd_list.extend(cmd_args.split())
+        else:
+            # On Unix, use shlex for proper parsing
+            cmd_list.extend(shlex.split(cmd_args))
 
         try:
-            result = subprocess.run(
-                command, shell=True, capture_output=True, text=True, timeout=timeout
-            )
+            result = subprocess.run(cmd_list, capture_output=True, text=True, timeout=timeout)
             output = result.stdout.strip() or result.stderr.strip()
             success = result.returncode == 0 or "not installed" in output.lower()
             return success, output
+        except FileNotFoundError:
+            return False, "ADB not found. Please ensure it's in your PATH."
         except subprocess.TimeoutExpired:
             return False, "Command timed out"
         except Exception as e:

@@ -46,10 +46,11 @@ class TestADBClient:
         with patch("subprocess.run", return_value=mock_subprocess_success) as mock_run:
             client.run_command("adb shell ls")
 
-        # Verify -s flag was added
+        # Verify -s flag was added (command is now a list)
         call_args = mock_run.call_args
         command = call_args[0][0]
-        assert "-s emulator-5554" in command
+        assert "-s" in command
+        assert "emulator-5554" in command
 
     def test_run_command_timeout(self):
         """Test command timeout handling."""
@@ -69,9 +70,12 @@ class TestADBClient:
         with patch("subprocess.run", return_value=mock_subprocess_success) as mock_run:
             success, output = client.shell("ls /data")
 
+        # Command is now a list
         call_args = mock_run.call_args
         command = call_args[0][0]
-        assert "adb shell ls /data" in command
+        assert "shell" in command
+        assert "ls" in command
+        assert "/data" in command
 
     def test_get_property(self):
         """Test getting device property."""

@@ -6,10 +6,71 @@ This module handles operations related to AVD files and directories.
 
 import os
 import shutil
+import stat
+import sys
 from pathlib import Path
 
 from ..models import AVD
 from .adb import ADBClient
+
+IS_WINDOWS = sys.platform == "win32"
+
+
+def _handle_remove_readonly(
+    func: object, path: str, exc_info: tuple[type, BaseException, object]
+) -> None:
+    """
+    Handle removal of read-only files on Windows.
+
+    Windows sometimes marks files as read-only, preventing deletion.
+    This handler removes the read-only flag and retries.
+    """
+    if IS_WINDOWS:
+        os.chmod(path, stat.S_IWRITE)
+        if callable(func):
+            func(path)
+    else:
+        raise exc_info[1]
+
+
+def safe_rmtree(path: Path) -> tuple[bool, str]:
+    """
+    Safely remove a directory tree with Windows compatibility.
+
+    Args:
+        path: Path to remove
+
+    Returns:
+        Tuple of (success, error_message)
+    """
+    try:
+        shutil.rmtree(path, onerror=_handle_remove_readonly)
+        return True, ""
+    except PermissionError:
+        return False, "File is locked. Close any programs using it and try again."
+    except Exception as e:
+        return False, str(e)
+
+
+def safe_unlink(path: Path) -> tuple[bool, str]:
+    """
+    Safely remove a file with Windows compatibility.
+
+    Args:
+        path: Path to remove
+
+    Returns:
+        Tuple of (success, error_message)
+    """
+    try:
+        if IS_WINDOWS:
+            os.chmod(path, stat.S_IWRITE)
+        path.unlink()
+        return True, ""
+    except PermissionError:
+        return False, "File is locked. Close any programs using it and try again."
+    except Exception as e:
+        return False, str(e)
 
 
 def get_dir_size(path: str) -> int:
@@ -151,16 +212,20 @@ def clean_avd_snapshots(avd: AVD) -> tuple[bool, str, int]:
         return True, "No snapshots found", 0
 
     size_before = get_dir_size(str(snapshot_dir))
+    errors: list[str] = []
 
-    try:
-        for item in snapshot_dir.iterdir():
-            if item.is_dir():
-                shutil.rmtree(item)
-            else:
-                item.unlink()
-        return True, f"Freed {format_size(size_before)}", size_before
-    except Exception as e:
-        return False, str(e), 0
+    for item in snapshot_dir.iterdir():
+        if item.is_dir():
+            success, error = safe_rmtree(item)
+        else:
+            success, error = safe_unlink(item)
+        if not success:
+            errors.append(f"{item.name}: {error}")
+
+    if errors:
+        return False, "; ".join(errors), 0
+
+    return True, f"Freed {format_size(size_before)}", size_before
 
 
 def clean_avd_cache(avd: AVD) -> tuple[bool, str, int]:
@@ -178,15 +243,20 @@ def clean_avd_cache(avd: AVD) -> tuple[bool, str, int]:
 
     avd_path = Path(avd.path)
     total_freed = 0
+    errors: list[str] = []
 
-    try:
-        for cache_file in avd_path.glob("cache.img*"):
-            size = cache_file.stat().st_size
-            cache_file.unlink()
+    for cache_file in avd_path.glob("cache.img*"):
+        size = cache_file.stat().st_size
+        success, error = safe_unlink(cache_file)
+        if success:
             total_freed += size
-        return True, f"Freed {format_size(total_freed)}", total_freed
-    except Exception as e:
-        return False, str(e), 0
+        else:
+            errors.append(f"{cache_file.name}: {error}")
+
+    if errors:
+        return False, "; ".join(errors), total_freed
+
+    return True, f"Freed {format_size(total_freed)}", total_freed
 
 
 def get_total_avd_stats(avds: list[AVD]) -> tuple[int, int]:
