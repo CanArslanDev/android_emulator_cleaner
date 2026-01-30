@@ -2,9 +2,6 @@
 
 import tempfile
 from pathlib import Path
-from unittest.mock import patch
-
-import pytest
 
 from android_emulator_cleaner.core.avd import (
     clean_avd_cache,

@@ -6,7 +6,6 @@ This module contains all dataclasses and enums used throughout the application.
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 
 class CleanupCategory(Enum):
@@ -163,8 +162,8 @@ class DeviceCleanupSummary:
     device: Device
     cleanup_results: list[CleanupResult] = field(default_factory=list)
     uninstall_results: list[UninstallResult] = field(default_factory=list)
-    storage_before: Optional[StorageInfo] = None
-    storage_after: Optional[StorageInfo] = None
+    storage_before: StorageInfo | None = None
+    storage_after: StorageInfo | None = None
 
     @property
     def successful_cleanups(self) -> int:

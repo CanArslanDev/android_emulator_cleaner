@@ -5,7 +5,6 @@ This module contains the main CLI logic and user interaction flows.
 """
 
 import sys
-from typing import Optional
 
 import questionary
 from questionary import Style
@@ -35,7 +34,6 @@ from .ui import (
     print_header_row,
     print_section_header,
 )
-
 
 # Custom questionary style
 CUSTOM_STYLE = Style([

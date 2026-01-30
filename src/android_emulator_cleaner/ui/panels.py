@@ -8,7 +8,7 @@ from rich import box
 from rich.panel import Panel
 from rich.table import Table
 
-from ..models import CleanupOption, CleanupResult, Device, StorageInfo, UninstallResult
+from ..models import CleanupResult, Device, StorageInfo, UninstallResult
 from .console import console
 
 
@@ -166,10 +166,7 @@ def add_result_row(table: Table, result: CleanupResult) -> None:
     """
     output = result.output[:50] + "..." if len(result.output) > 50 else result.output
 
-    if result.success:
-        status = "[bold green]✓ OK[/bold green]"
-    else:
-        status = "[bold red]✗ FAIL[/bold red]"
+    status = "[bold green]✓ OK[/bold green]" if result.success else "[bold red]✗ FAIL[/bold red]"
 
     table.add_row(
         status,

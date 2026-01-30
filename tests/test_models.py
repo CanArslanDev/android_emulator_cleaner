@@ -1,15 +1,11 @@
 """Tests for data models."""
 
-import pytest
 
 from android_emulator_cleaner.models import (
-    AVD,
     CleanupCategory,
     CleanupOption,
     CleanupResult,
-    Device,
     DeviceCleanupSummary,
-    DeviceType,
     RiskLevel,
     StorageInfo,
     UninstallResult,

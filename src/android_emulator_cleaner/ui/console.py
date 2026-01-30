@@ -13,7 +13,6 @@ from rich.progress import (
     TextColumn,
 )
 
-
 # Global console instance
 console = Console()
 

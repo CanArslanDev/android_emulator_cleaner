@@ -6,7 +6,6 @@ This module handles all interactions with Android devices via ADB commands.
 
 import subprocess
 import time
-from typing import Optional
 
 from ..models import Device, DeviceType, StorageInfo
 
@@ -22,7 +21,7 @@ class ADBClient:
 
     DEFAULT_TIMEOUT = 30
 
-    def __init__(self, device_id: Optional[str] = None):
+    def __init__(self, device_id: str | None = None):
         """
         Initialize ADB client.
 
@@ -35,7 +34,7 @@ class ADBClient:
         self,
         command: str,
         timeout: int = DEFAULT_TIMEOUT,
-        device_id: Optional[str] = None
+        device_id: str | None = None
     ) -> tuple[bool, str]:
         """
         Execute an ADB command.

@@ -4,9 +4,8 @@ Core cleanup operations module.
 This module contains the main cleanup logic and predefined cleanup options.
 """
 
-from typing import Callable, Optional
+from collections.abc import Callable
 
-from .adb import ADBClient
 from ..models import (
     CleanupCategory,
     CleanupOption,
@@ -15,7 +14,7 @@ from ..models import (
     RiskLevel,
     UninstallResult,
 )
-
+from .adb import ADBClient
 
 # Predefined cleanup options
 # Note: Crash Dumps (/data/tombstones) and ANR Traces (/data/anr) require root access
@@ -101,7 +100,7 @@ class DeviceCleaner:
     def run_cleanup(
         self,
         option: CleanupOption,
-        progress_callback: Optional[Callable[[str], None]] = None
+        progress_callback: Callable[[str], None] | None = None
     ) -> CleanupResult:
         """
         Run a single cleanup operation.
@@ -127,7 +126,7 @@ class DeviceCleaner:
     def run_all_cleanups(
         self,
         options: list[CleanupOption],
-        progress_callback: Optional[Callable[[str], None]] = None
+        progress_callback: Callable[[str], None] | None = None
     ) -> list[CleanupResult]:
         """
         Run multiple cleanup operations.
@@ -184,7 +183,7 @@ class DeviceCleaner:
     def uninstall_apps(
         self,
         packages: list[str],
-        progress_callback: Optional[Callable[[str], None]] = None
+        progress_callback: Callable[[str], None] | None = None
     ) -> list[UninstallResult]:
         """
         Uninstall multiple applications.

@@ -1,7 +1,8 @@
 """Pytest configuration and fixtures."""
 
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
 
 from android_emulator_cleaner.models import (
     AVD,

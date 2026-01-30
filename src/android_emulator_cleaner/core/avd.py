@@ -7,10 +7,9 @@ This module handles operations related to AVD files and directories.
 import os
 import shutil
 from pathlib import Path
-from typing import Optional
 
-from .adb import ADBClient
 from ..models import AVD
+from .adb import ADBClient
 
 
 def get_dir_size(path: str) -> int:
@@ -80,7 +79,7 @@ def get_running_emulator_names() -> list[str]:
     return running
 
 
-def get_avd_home() -> Optional[Path]:
+def get_avd_home() -> Path | None:
     """
     Get the AVD home directory path.
 

@@ -2,8 +2,6 @@
 
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from android_emulator_cleaner.core.cleaner import (
     CLEANUP_OPTIONS,
     DeviceCleaner,

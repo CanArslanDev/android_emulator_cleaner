@@ -3,8 +3,6 @@
 import subprocess
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from android_emulator_cleaner.core.adb import ADBClient, get_connected_devices
 
 
